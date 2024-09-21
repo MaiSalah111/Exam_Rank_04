@@ -19,7 +19,7 @@ int cd(char **argv, int i)
 void set_pipe(int has_pipe, int *fd, int end)
 {
 	if(has_pipe && (dup2(fd [end], end) == -1 || close(fd[0]) == -1 || close(fd[1]) == -1))
-		err ("fatal\n");
+		err ("error: fatal\n");
 }
 
 int exec(char **argv, int i, char **envp)
@@ -28,9 +28,9 @@ int exec(char **argv, int i, char **envp)
 
 	has_pipe = argv[i] && (!strcmp(argv[i], "|"));
 	if (has_pipe && pipe(fd) == -1)
-		return err("fatal\n");
+		return err("error: fatal\n");
 	if ((pid = fork()) == -1)
-		return err("fatal\n");
+		return err("error: fatal\n");
 	if (!pid)
 	{
 		argv[i] = 0;
